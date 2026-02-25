@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوق الأساطير - Legend Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="auth-container" id="authContainer">
+        <div class="auth-box">
+            <div class="auth-content">
+                <div class="logo">
+                    <i class="fas fa-crown logo-icon"></i>
+                    <h1>سوق الأساطير</h1>
+                    <p>منصة البيع والشراء الأولى</p>
+                </div>
+                
+                <form id="authForm">
+                    <div class="input-group">
+                        <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                        <input type="email" id="email" placeholder="example@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-lock"></i> كلمة المرور</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    <div class="input-group" id="nameGroup" style="display: none;">
+                        <label><i class="fas fa-user"></i> الاسم الكامل</label>
+                        <input type="text" id="fullName" placeholder="محمد أحمد">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="authBtn">
+                        <span id="btnText">تسجيل الدخول</span>
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    <span id="switchText">ليس لديك حساب؟</span>
+                    <a id="switchLink">سجل الآن</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-app" id="mainApp">
+        <header class="header">
+            <div class="header-logo">
+                <i class="fas fa-crown"></i>
+                <span>سوق الأساطير</span>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 ابحث عن منتج...">
+                <select id="searchCountry">
+                    <option value="">🌍 كل الدول</option>
+                </select>
+                <select id="searchCity">
+                    <option value="">🏙️ كل المدن</option>
+                </select>
+                <button class="search-btn" onclick="searchProducts()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <div class="menu-container">
+                <button class="menu-btn" onclick="toggleMenu()">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item" onclick="showProfile()">
+                        <i class="fas fa-user"></i>
+                        <span>الملف الشخصي</span>
+                    </div>
+                    <div class="menu-item" onclick="openAddProduct()">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>نشر منتج جديد</span>
+                    </div>
+                    <div class="menu-item" onclick="showHelp()">
+                        <i class="fas fa-question-circle"></i>
+                        <span>المساعدة</span>
+                    </div>
+                    <div class="menu-item logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>تسجيل الخروج</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="welcome-banner">
+                <h2>👋 أهلاً بك، <span id="userName"></span></h2>
+                <p>ابدأ بيع وشراء منتجاتك بكل سهولة وأمان</p>
+            </div>
+
+            <h2 class="section-title">
+                <i class="fas fa-fire"></i>
+                المنتجات المتاحة
+                <span class="badge" id="productsCount">0</span>
+            </h2>
+            
+            <div class="products-grid" id="productsGrid"></div>
+            
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-box-open"></i>
+                <h3>لا توجد منتجات حالياً</h3>
+                <p>كن أول من ينشر منتجاً! 🚀</p>
+                <button class="btn btn-primary" onclick="openAddProduct()">
+                    <i class="fas fa-plus"></i> نشر منتج الآن
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addProductModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-plus-circle"></i> نشر منتج جديد</h3>
+                <button class="close-btn" onclick="closeAddProduct()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addProductForm">
+                <div class="input-group">
+                    <label>اسم المنتج</label>
+                    <input type="text" id="productName" required placeholder="مثال: iPhone 14 Pro Max">
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>السعر</label>
+                        <input type="number" id="productPrice" required placeholder="0.00" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label>العملة</label>
+                        <select id="productCurrency" required></select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>الدولة</label>
+                        <select id="productCountry" required onchange="updateCities()">
+                            <option value="">اختر الدولة</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>المدينة</label>
+                        <select id="productCity" required>
+                            <option value="">اختر المدينة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>رابط فيسبوك للتواصل</label>
+                    <input type="url" id="facebookLink" required placeholder="https://facebook.com/username">
+                </div>
+
+                <div class="input-group">
+                    <label>وصف المنتج (اختياري)</label>
+                    <textarea id="productDesc" rows="3" placeholder="وصف مختصر للمنتج..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-paper-plane"></i> نشر المنتج الآن
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <h4 id="toastTitle">تم بنجاح!</h4>
+            <p id="toastMessage">تمت العملية بنجاح</p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
